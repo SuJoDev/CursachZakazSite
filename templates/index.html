@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link href="../static/style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookStore</title>
+</head>
+
+<body>
+    <section class="header">
+        <div class="container">
+            <div class="nav">
+                <!-- <img class="logo" src="../static/img/logo.svg">
+                 <img class="logo" src="../static/img/logo.svg"> -->
+                <h2>BookStore</h2>
+                <div class="tools_user">
+                    <ul list-style-type: none>
+                        {% if user %}
+                        <li><a href="/cart">Корзина</a></li>
+                        <li><a href="/logout">{{ user }}</a></li>
+                        {% else %}
+                        <li><a href="/auth">Авторизоваться</a></li>
+                        <li><a>Регистрация</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="main_frame">
+        <div class="container">
+            <div class="main_flex_div">
+                <div class="grid_books">
+                    {%for i in books %}
+                    <div class= "book_card">
+                        <h2>{{i.name}}</h2>
+                        <p>{{i.author}}</p>
+                        <div class="footer_card">
+                            <p>Цена: {{i.price}}руб.</p>
+                            <p>Колличество: {{i.value}}шт.</p>
+                        </div>
+                        {% if user %}
+                        <button class="add_card_btn" type="submit" onclick="addToCart('{{i.id}}')">Добавить в корзину</button>
+                        {%else%}
+                        {%endif%}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>    
+        </div>
+    </section>
+</body>
+
+<script>
+    function addToCart(bookId) {
+        fetch(`/add_to_cart/${bookId}`, { method: 'POST' })
+    }
+</script>
+
+</html>

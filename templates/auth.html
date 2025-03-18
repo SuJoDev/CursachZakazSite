@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="../static/style2.css" rel="stylesheet">
+  <title>Nice dark sign in form</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h1>Sign In Form</h1>
+  <div id="wrapper">
+    <form id="signin" method="POST" action="/auth/reader" autocomplete="off">
+      <input type="text" id="user" name="name" placeholder="Логин" />
+      <input type="password" id="pass" name="password" placeholder="Пароль" />
+      <button type="submit">&#xf0da;</button>
+      <p>Забыли пароль <a href="#">Нажать сюда</a></p>
+    </form>
+  </div>
+</body>
+</html>

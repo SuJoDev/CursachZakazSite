@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link href="../static/style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина</title>
+</head>
+<body>
+    <section class="header">
+        <div class="container">
+            <div class="nav">
+                <h2>BookStore</h2>
+                {% if user %}
+                <div class="tools_user">
+                    <p>Корзина</p>
+                    <p>{{user}}</p>
+                </div>
+                {% else %}
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <section class="main_frame">
+        <div class="container">
+            <div class="main_flex_div">
+                <h1>Ваша корзина</h1>
+                <div class="cart_items">
+                    {% if cart_items %}
+                        {% for item in cart_items %}
+                        <div class="cart_item">
+                            <h2>{{item.name}}</h2>
+                            <p>{{item.author}}</p>
+                            <p>Цена: {{item.price}} руб.</p>
+                            <p>Количество: {{item.quantity}} шт.</p>
+                            <button onclick="removeFromCart('{{item.id}}')">Удалить</button>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>Корзина пуста</p>
+                    {% endif %}
+                </div>
+                <div class="cart_total">
+                    <p>Итого: {{total_price}} руб.</p>
+                    <button onclick="checkout()">Оформить заказ</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function removeFromCart(itemId) {
+            fetch(`/remove_from_cart/${itemId}`, { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload(); // Перезагрузка страницы после успешного удаления
+                    } else {
+                        alert('Ошибка при удалении товара');
+                    }
+                })
+                .catch(error => console.error('Ошибка:', error));
+        }
+    
+        function checkout() {
+            fetch('/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Заказ оформлен!');
+                    location.reload();
+                } else {
+                    alert('Ошибка при оформлении заказа');
+                }
+            })
+            .catch(error => console.error('Ошибка:', error));
+        }
+        
+    </script>
+</body>
+</html>
